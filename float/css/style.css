@@ -1,0 +1,41 @@
+.container{
+  width:600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+h2,div{
+  margin: 0 0;
+}
+.box{
+  width:100px;
+  height:100px;
+  background-color: green;
+  margin: 10px 0;
+}
+.left{
+  float: left;
+}
+.right{
+  /*float: right;*/
+  margin-left: 100px;
+}
+.wrapper{
+  width:300px;
+  margin: 30px 0;
+  background-color: #ff9900;
+}
+
+#box1:after,#box1:before{
+   content:"";
+   display: table;
+ }
+#box1:after{
+  clear:both;
+}
+#box2:after,#box2:before{
+  content:"";
+  display: block;
+}
+#box2:after{
+  clear:both;
+}
