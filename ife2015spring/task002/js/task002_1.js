@@ -48,5 +48,4 @@ function submitForm(event) {
   var input = event.target.elements[0];
   $.on(input, "change", readError);
 }
-//$.on("#input", "change", readError);
 $.on("#form", "submit", submitForm);
