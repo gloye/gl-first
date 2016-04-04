@@ -1,19 +1,25 @@
 /**
  * Created by Shaox on 2016/3/20.
  */
+//表单提交事件
 $.on("#form", "submit", submitDate)
+//提交事件执行函数
 function submitDate(event) {
   event.preventDefault();
   var btn = event.target.elements['submit'];
   btn.disabled = true;
   var input = event.target.elements[0];
+  //读取事件格式
   readDate(event);
 }
+//读取函数
 function readDate(e) {
   var val = e.target.value || e.target.elements[0].value;
   var reg = /^[1-2][0-9][0-9][0-9]-[0-1]{0,1}[0-9]-[0-3]{0,1}[0-9]$/;
   if (!val.match(reg)) {
     writeError("您输入的时间格式不对，请重新输入");
+    var btn = document.querySelector('#submit');
+    btn.disabled=false;
   } else {
     clearError();
     var nowDate = new Date();
@@ -28,7 +34,7 @@ function readDate(e) {
     automate();
   }
 }
-var s = $("#second");
+var s = $("#second;")
 var m = $("#minute");
 var h = $("#hour");
 

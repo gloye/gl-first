@@ -2,12 +2,12 @@
  * Created by admin on 2016/3/16.
  */
 
-// 判断arr是否为一个数组，返回一个bool值
+//test if a Array
 function isArry(arr) {
   return Array.isArray(arr);
 };
 
-// 判断fn是否为一个函数，返回一个bool值
+// test if a Function
 function isFunction(fn) {
   if (typeof fn == "function") {
     return true;
@@ -16,7 +16,7 @@ function isFunction(fn) {
   }
 };
 
-// 使用递归来实现一个深度克隆，可以复制一个目标对象，返回一个完整拷贝
+// deep extend
 function cloneObject(src) {
   var newObj = Array.isArray(src) ? [] : {};
   for (var i in src) {
@@ -30,7 +30,7 @@ function cloneObject(src) {
 }
 
 
-// 对数组进行去重操作，只考虑数组中元素为数字或字符串，返回一个去重后的数组
+// unique a Array
 function uniqArray(arr) {
   var newArr = [], newObj = {};
   for (var i in arr) {
@@ -43,19 +43,19 @@ function uniqArray(arr) {
 }
 
 
-// 对字符串头尾进行空格字符的去除、包括全角半角空格、Tab等，返回一个字符串
+// trim
 function trim(str) {
   return str.trim();
 }
 
-// 实现一个遍历数组的方法，针对数组中每一个元素执行fn函数，并将数组索引和元素作为参数传递
+// each Method
 function each(arr, fn) {
   for (var i in arr) {
     fn(arr[i], i);
   }
 }
 
-// 获取一个对象里面第一层元素的数量，返回一个整数
+// getLenth
 function getObjectLength(obj) {
   var lenArr = [];
   for (var i in obj) {
