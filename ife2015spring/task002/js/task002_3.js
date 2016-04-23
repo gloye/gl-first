@@ -1,9 +1,4 @@
 function slider(selector) {
-  //顺序，循环，速度
-  var order, loop, speed;
-  //容器宽度
-  var len = selector.children.length;
-  selector.style.width = 480 * len+'px';
   //小圆点
   var pagers = document.createElement("div");
   pagers.setAttribute('id','pagers');
@@ -16,17 +11,40 @@ function slider(selector) {
     pagers.appendChild(pagerItem.cloneNode(true));
   }
   $('#wrapper').appendChild(frag);
-  var left = selector.style.left;
-  //动画
-  function animation(){
-    var init = false;
-    if(left == -480){
-      clearTimeout(init);
-    }else{
-      left -= 1;
-      selector.style.left=left+'px';
-      init = setTimeout(animation,5);
+}
+//实现一个复制
+function extend(target,source){
+  for (var key in source){
+    if(source.hasOwnProperty(key)){
+      target[key] = source [key];
     }
   }
-  setTimeout(animation,1000);
+  return target;
+}
+//绑定环境
+function bind(fn,context){
+  var args = [].slice.call(arguments,2);
+  return function(){
+    args = args.concat([].slice.call(arguments));
+    return fn.applay(context,args);
+  };
+}
+//继承
+function inherits(subClass,superClass){
+  var proto = subClass.prototype;
+  var F = function(){};
+  F.prototype = superClass.prototype;
+  subClass.prototype = new F();
+  extend(subClass.prototype,proto);
+  return subClass;
+}
+// 判断元素的包含关系
+function contains(node1, node2) {
+  if (node1 === node2) {
+    return false;
+  }
+  if (node1.contains) {
+    return node1.contains(node2);
+  }
+  return !!(node1.compareDocumentPosition(node2) & 16);
 }
