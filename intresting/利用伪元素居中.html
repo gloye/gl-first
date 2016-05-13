@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    *{
+      margin:0;
+      padding: 0;
+    }
+    .box{
+      position: relative;
+      width: 500px;
+      height:500px;
+      background-color: green;
+    }
+    .wrapper{
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: auto;
+      right: auto;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      text-align: center;
+    }
+    .copy{
+      position: absolute;
+      width:250px;
+      height:100%;
+      background-color: yellow;
+      left: 50%;
+      top: -50%;
+      vertical-align: middle;
+    }
+    .copy:before ,
+    .copy:after{
+      content: ' ';
+      display: inline-block;
+      height: 100%;
+      width: 0px;
+      font-size: 0;
+      margin: 0 -1000px;
+      padding: 0;
+      vertical-align: middle;
+    }
+    .main{
+      z-index: 1;
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+      width: 100%;
+      height: auto;
+      top:50%;
+      left:0;
+      right:auto;
+      bottom:auto;
+      margin: 0;
+      padding: 0;
+    }
+    h1{
+      font-size: 16px;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+<div class="box">
+  <div class="wrapper">
+    <div class="copy">
+      <div class="main">
+        <h1>夜阑卧听风吹雨，铁马冰河入梦来</h1>
+
+          <h2>无言独上西楼</h2>
+
+          <h3>无可奈何花落去</h3>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
