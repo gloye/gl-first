@@ -34,7 +34,7 @@ function cloneObject(src) {
 function uniqArray(arr) {
   var newArr = [], newObj = {};
   for (var i in arr) {
-    if (newObj[arr[i]] == undefined && arr[i].length>0) {
+    if (newObj[arr[i]] == undefined && arr[i].length > 0) {
       newObj[arr[i]] = true;
       newArr.push(arr[i]);
     }
@@ -65,26 +65,29 @@ function getObjectLength(obj) {
 }
 
 
-function $(element) {
-  if (element.nodeType == 1) {
-    return this;
-  } else if (document.querySelectorAll(element).length == 1) {
-    return document.querySelector(element)
-  } else if (document.querySelectorAll(element).length > 1){
-    return document.querySelectorAll(element)
-  }else{
-    return false;
+var $ = function (element) {
+  function (element) {
+    if (element && element.nodeType == 1) {
+      return this;
+    } else if (document.querySelectorAll(element).length == 1) {
+      return document.querySelector(element)
+    } else if (document.querySelectorAll(element).length > 1) {
+      return document.querySelectorAll(element)
+    } else {
+      return false;
+    }
   }
-}
+};
+
 function addEvent(element, event, listener) {
   $(element).addEventListener(event, listener);
 }
 function removeEvent(element, event, listener) {
   $(element).removeEventListener(event, listener);
 }
-$.on = function(element,event,listener){
-  addEvent(element,event,listener);
+$.on = function (element, event, listener) {
+  addEvent(element, event, listener);
 };
-$.un=function(element,event,listener){
-  removeEvent(element,event,listener);
+$.un = function (element, event, listener) {
+  removeEvent(element, event, listener);
 };
