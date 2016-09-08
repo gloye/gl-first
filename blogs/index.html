@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>H5简单滑动</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    
+    #page1 {
+      background-color: #8fcb87;
+    }
+    
+    #page2 {
+      background-color: #ffdc7a;
+    }
+    
+    #page3 {
+      background-color: #75bce8;
+    }
+    
+    #page4 {
+      background-color: #792981;
+    }
+    
+    #page5 {
+      background-color: #ed174b;
+    }
+    
+    .page {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+    }
+    
+    .page:first-child,
+    .current {
+      z-index: 1;
+    }
+    
+    .page {
+      transition: transform .3s;
+      transform: translateY(0, 0);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="pages">
+      <div id="page1" class="page"></div>
+      <div id="page2" class="page"></div>
+      <div id="page3" class="page"></div>
+      <div id="page4" class="page"></div>
+      <div id="page5" class="page"></div>
+    </div>
+
+  </div>
+  <script src="lib/zepto.min.js"></script>
+  <script src="dxSlider.js"></script>
+  <script>
+    $("#pages").dxSlider();
+  </script>
+</body>
+
+</html>
