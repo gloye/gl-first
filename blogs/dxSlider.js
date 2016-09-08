@@ -54,14 +54,16 @@
             var cPage = $(".current");
             var index = cPage.index();
             if (index === (pages.length - 1)) return false;
-            cPage.css("-webkit-transform", "translateY(-100%)").removeClass('current').next().addClass("current");
+            cPage.parent().removeClass().addClass("go2next")
+            cPage.removeClass('current').next().addClass("current");
           }
           //上一页
           function prevPage() {
             var cPage = $(".current");
             var index = cPage.index();
             if (index === 0) return false;
-            cPage.css("-webkit-transform", "translateY(100%)").removeClass('current').prev().addClass("current");
+            cPage.parent().removeClass().addClass('go2prev')
+            cPage.removeClass('current').prev().addClass("current");
           }
           // 全局绑定事件
           $(document)
