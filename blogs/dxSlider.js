@@ -19,19 +19,46 @@
           mode: "default", //定义模式，默认垂直
           points: false, //是否添加指示点，默认false
           arrow: true, // 是否添加上滑箭头，默认为true
-          loading: false, //是否包含加载loading动画,默认不加载
+          change:function(e){}, //翻页时回调函数
+          afterChange:function(e){} //翻页完成时回调函数
         }, opts)
+
+        //定义全局事件
+        var xStart = null,
+          yStart = null,
+          xEnd = null,
+          yEnd = null;
 
         //返回值
         return this.each(function() {
           var pageWrap = $(this); //容器
-          var pages = pageWrap.find(".page"); //页面，可以定义类，也可以定义为children;
+          var pages = pageWrap.children(".page"); //所有子页面；
           $(pages[0]).addClass("current");
-          //定义全局事件
-          var xStart = null,
-            yStart = null,
-            xEnd = null,
-            yEnd = null;
+
+          if (options.arrow) {
+            pages.append('<div class="dx-arrow animated infinite fadeInUp"></div>');
+            $(pages[pages.length - 1]).find(".dx-arrow").remove();
+          }
+
+          //下一页
+          function nextPage() {
+            var cPage = pageWrap.children(".current");
+            var index = cPage.index();
+            if (index === (pages.length - 1)) return false;
+            cPage.parent().removeClass().addClass("go2next")
+            cPage.removeClass('current').next().addClass("current");
+            animation();
+          }
+          //上一页
+          function prevPage() {
+            var cPage = pageWrap.children(".current");
+            var index = cPage.index();
+            if (index === 0) return false;
+            cPage.parent().removeClass().addClass('go2prev')
+            cPage.removeClass('current').prev().addClass("current");
+            animation();
+          }
+
           //touch开始事件
           function tStart(e) {
             if (options.mode === 'default') {
@@ -48,23 +75,22 @@
               }
             }
           }
-
-          //下一页
-          function nextPage() {
-            var cPage = $(".current");
-            var index = cPage.index();
-            if (index === (pages.length - 1)) return false;
-            cPage.parent().removeClass().addClass("go2next")
-            cPage.removeClass('current').next().addClass("current");
+          // 绑定动画
+          function animation() {
+            $(".current .animated").each(function() {
+              var $this = $(this);
+              var name = $this.data("animation"); //动画动作
+              var delay = $this.data("delay") ? $this.data("delay") : 0; //动画延时
+              var loop = $this.data("infinite"); //动画循环
+              if (name) {
+                setTimeout(function() {
+                  $this.addClass(name);
+                  if (loop) $(this).addClass("infinite");
+                }, parseInt(delay, 10))
+              }
+            })
           }
-          //上一页
-          function prevPage() {
-            var cPage = $(".current");
-            var index = cPage.index();
-            if (index === 0) return false;
-            cPage.parent().removeClass().addClass('go2prev')
-            cPage.removeClass('current').prev().addClass("current");
-          }
+          animation();
           // 全局绑定事件
           $(document)
             .on('touchstart', '.page', function(e) {
@@ -76,6 +102,7 @@
             .on('touchend', '.page', function(e) {
               tEnd(e.changedTouches[0]);
             })
+
         })
       },
       destroy: function() {
