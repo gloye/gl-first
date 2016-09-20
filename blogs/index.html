@@ -52,10 +52,9 @@
             right: 0;
             bottom: 0;
         }
-        
-        .page:first-child,
+
         .current {
-            z-index: 1;
+            z-index: 2;
         }
         
         .current {
@@ -135,10 +134,12 @@
     <div class="wrap">
         <div id="pages">
             <div id="page1" class="page">
-                <p class="animated" data-animation="fadeInUp" >animation</p>
+                <p class="animated" data-animation="fadeInDown">animation1</p>
+                <p class="animated" data-animation="fadeInUp" data-delay="800">animation2</p>
             </div>
             <div id="page2" class="page">
-                <p class="animated" data-animation="bounce">animation</p>
+                <p class="animated" data-animation="shake">animation1</p>
+                <p class="animated" data-animation="bounce" data-delay="400">animation2</p>
             </div>
             <div id="page3" class="page">
                 <p class="animated" data-animation="bounce">animation</p>

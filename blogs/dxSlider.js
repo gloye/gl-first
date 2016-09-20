@@ -19,8 +19,8 @@
           mode: "default", //定义模式，默认垂直
           points: false, //是否添加指示点，默认false
           arrow: true, // 是否添加上滑箭头，默认为true
-          change:function(e){}, //翻页时回调函数
-          afterChange:function(e){} //翻页完成时回调函数
+          change: function(e) {}, //翻页时回调函数
+          afterChange: function(e) {} //翻页完成时回调函数
         }, opts)
 
         //定义全局事件
@@ -33,7 +33,11 @@
         return this.each(function() {
           var pageWrap = $(this); //容器
           var pages = pageWrap.children(".page"); //所有子页面；
+          var cPage;
+
+          //初始化动画
           $(pages[0]).addClass("current");
+          animation();
 
           if (options.arrow) {
             pages.append('<div class="dx-arrow animated infinite fadeInUp"></div>');
@@ -42,21 +46,19 @@
 
           //下一页
           function nextPage() {
-            var cPage = pageWrap.children(".current");
+            cPage = pageWrap.children(".current");
             var index = cPage.index();
             if (index === (pages.length - 1)) return false;
             cPage.parent().removeClass().addClass("go2next")
             cPage.removeClass('current').next().addClass("current");
-            animation();
           }
           //上一页
           function prevPage() {
-            var cPage = pageWrap.children(".current");
+            cPage = pageWrap.children(".current");
             var index = cPage.index();
             if (index === 0) return false;
             cPage.parent().removeClass().addClass('go2prev')
             cPage.removeClass('current').prev().addClass("current");
-            animation();
           }
 
           //touch开始事件
@@ -75,22 +77,22 @@
               }
             }
           }
-          // 绑定动画
+
+          //动画事件
           function animation() {
             $(".current .animated").each(function() {
               var $this = $(this);
-              var name = $this.data("animation"); //动画动作
-              var delay = $this.data("delay") ? $this.data("delay") : 0; //动画延时
-              var loop = $this.data("infinite"); //动画循环
-              if (name) {
-                setTimeout(function() {
-                  $this.addClass(name);
-                  if (loop) $(this).addClass("infinite");
-                }, parseInt(delay, 10))
+              if ($this.data('delay')) {
+                window.setTimeout(function() {
+                  $this.show().addClass($this.data('animation'));
+                }, parseInt($this.data('delay'), 10));
+              } else {
+                $this.show().addClass($this.data('animation'));
               }
             })
           }
-          animation();
+
+
           // 全局绑定事件
           $(document)
             .on('touchstart', '.page', function(e) {
@@ -102,6 +104,9 @@
             .on('touchend', '.page', function(e) {
               tEnd(e.changedTouches[0]);
             })
+            .on('webkitAnimationEnd webkitTransitionEnd', '.page', function() {
+              animation()
+            });
 
         })
       },
