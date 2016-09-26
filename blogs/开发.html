@@ -1,260 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
 </head>
+
 <body>
-  <div class="wrapper">
-    <h3 id="h5">H5滑动简易开发指南</h3>
-
-<p>H5一词是由W3C制定的HTML5标准演化而来，时至今日，已经脱离其本身的意义，在特定环境下，H5表示的是在移动端供用户翻页浏览的动画实例。 <br>
-  现在互联网上，各种H5工具层出不穷，一个毫无开发经验的人也能轻松做出一个精美的H5动画，但是，对于开发者而言，最让人愉悦的方式还是编程实现。
-得益于新技术带来的便利，现在开发一个具有基本功能的H5也会很容易，gitHub上一个1000star的H5插件，也不过200多行代码，现在我们进一步精简其
-的功能，来一次H5插件开发实践。
-  这里我们使用的是移动端的zepto类库，熟悉jQuery的基本可以当jQuery进行操作。</p>
-
-<h4 id="zeptojquery">Zepto(jQuery)插件的基本架构</h4>
-
-<ul>
-<li><p>首先我们新建一个<em>[SliderName]</em>的js文件，比如 <strong>dxSlider.js</strong></p></li>
-
-<li><p>定义严格模式，新建一个匿名函数,然后往里面传入<em>Zepto</em>,这样的好处是避免$冲突</p>
-
-<pre><code class="javascript language-javascript">'user strict';
-(function($){
-
-})(Zepto)</code></pre>
-
-<p></p></li>
-
-<li><p>我们在匿名函数里构建插件的基本结构</p>
-
-<pre><code class="javascript language-javascript">$.fn.dxSlider = function(){
-  //选项接口，提供默认选项，opt是自定义来替换默认选项
-  var options = $.extend({
-      mode:"default" //模式（这里只有一种可选）
-      arrow: true   //是否需要箭头
-  },opts) 
-  return this.each(function(){
-
-  })//返回值，在这里构建你的插件代码
-} //提供的插件接口 </code></pre></li>
-
-<li><p>建立HTML结构，以及一些必要的css样式</p>
-
-<p>```html</p></li>
-</ul>
-
-   <div id="pages">
-      <div id="page1" class="page"></div>
-
-<pre><code>  &lt;div id="page2" class="page"&gt;&lt;/div&gt;
-  &lt;div id="page3" class="page"&gt;&lt;/div&gt;
-  &lt;div id="page4" class="page"&gt;&lt;/div&gt;
-  &lt;div id="page5" class="page"&gt;&lt;/div&gt;</code></pre>
-
-<p></p></div>
-  ```  <p></p>
-
-<p>```css</p>
-
-<pre><code>  * {
-        margin: 0;
-        padding: 0;
+  <div id="preview1" class="g-b g-b--t1of2 split split-preview">
+    <div id="preview" preview="" debounce="150">
+      <p>前面一篇文章我们介绍了H5滑动插件基本功能的开发，也就是让它通过手指操作实现逐屏滑动，仅此而已，这只是满足了我们 进行信息展示的基本需求，一个稍微完善的H5动画也需要一些内部元素的动画效果，现在我们就通过一些操作让这些元素动起来。 这次我们需要依赖一个动画类库。
+      </p>
+      <h2>
+        <a id="animatecss_3"></a>animate.css</h2>
+      <p><a href="https://daneden.github.io/animate.css/">animate.css</a>是一个依赖CSS3的动画样式文件，里面封装了大量的常用动画。 animate.css的使用非常简单，我们只需要在html里引用它，然后在需要执行动画的元素里添加你需要的动画类即可。如下：
+      </p>
+      <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"animated infinite bounce"</span>&gt;</span>Example<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+</code></pre>
+      <p>其中<strong>animated</strong>类是必须的，<strong>infinite</strong>表示是否循环，<strong>bounce</strong>是你要执行的动画名称。</p>
+      <p>animate.css的官方文档里也介绍了一些使用jQuery调用animate的方法</p>
+      <pre><code class="language-javascript">$(<span class="hljs-string">'#yourElement'</span>).addClass(<span class="hljs-string">'animated bounceOutLeft'</span>);
+<span class="hljs-comment">//回调方法</span>
+$(<span class="hljs-string">'#yourElement'</span>).one(<span class="hljs-string">'webkitAnimationEnd'</span>, doSomething);
+<span class="hljs-comment">//定义一个公共方法</span>
+$.fn.extend({
+    animateCss: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">animationName</span>) </span>{
+        <span class="hljs-keyword">var</span> animationEnd = <span class="hljs-string">'webkitAnimationEnd animationend'</span>;
+        <span class="hljs-keyword">this</span>.addClass(<span class="hljs-string">'animated '</span> + animationName).one(animationEnd, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            $(<span class="hljs-keyword">this</span>).removeClass(<span class="hljs-string">'animated '</span> + animationName);
+        });
     }
-
-    #page1 {
-        background-color: #8fcb87;
+});
+$(<span class="hljs-string">'#yourElement'</span>).animateCss(<span class="hljs-string">'bounce'</span>);
+</code></pre>
+      <h2>
+        <a id="dxsliderjsanimate_31"></a>在前面得dxslider.js里调用animate</h2>
+      <p>在H5中调用animate可能比上面要少许复杂一点，因为我们需要考虑：</p>
+      <ol>
+        <li>动画是在翻页后执行而不是立即执行</li>
+        <li>动画在同一页面内的执行顺序可能不同</li>
+      </ol>
+      <p>为了满足这两点需求，我们需要在html文件里加上两个自定义属性</p>
+      <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"page1"</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"page"</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"animated"</span> <span class="hljs-attribute">data-animation</span>=<span class="hljs-value">"fadeInUp"</span> &gt;</span>animation1<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"animated"</span> <span class="hljs-attribute">data-animation</span>=<span class="hljs-value">"fadeInDown"</span> <span class="hljs-attribute">data-delay</span>=<span class="hljs-value">"400"</span>&gt;</span>animation2<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+</code></pre>
+      <p>这样我们就可以通过访问元素的data属性在适当的时候为元素赋予动画效果，如下面这样</p>
+      <pre><code class="language-css"><span class="hljs-class">.animated</span><span class="hljs-rules">{
+  <span class="hljs-rule"><span class="hljs-attribute">display</span>:<span class="hljs-value">none
+</span></span></span>}
+</code></pre>
+      <pre><code class="language-javascript">
+$(<span class="hljs-string">".current .animated"</span>).each(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> $<span class="hljs-keyword">this</span> = $(<span class="hljs-keyword">this</span>);
+    <span class="hljs-keyword">if</span> ($<span class="hljs-keyword">this</span>.data(<span class="hljs-string">'delay'</span>)) {
+      <span class="hljs-built_in">window</span>.setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        $<span class="hljs-keyword">this</span>.show().addClass($<span class="hljs-keyword">this</span>.data(<span class="hljs-string">'animation'</span>));
+      }, <span class="hljs-built_in">parseInt</span>($<span class="hljs-keyword">this</span>.data(<span class="hljs-string">'delay'</span>), <span class="hljs-number">10</span>));
+    } <span class="hljs-keyword">else</span> {
+      $<span class="hljs-keyword">this</span>.show().addClass($<span class="hljs-keyword">this</span>.data(<span class="hljs-string">'animation'</span>));
     }
+  })
 
-    #page2 {
-        background-color: #ffdc7a;
-    }
-
-    #page3 {
-        background-color: #75bce8;
-    }
-
-    #page4 {
-        background-color: #792981;
-    }
-
-    #page5 {
-        background-color: #ed174b;
-    }
-
-    .page {
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-    }
-
-    .page:first-child,
-    .current {
-        z-index: 1;
-    }  </code></pre>
-
-<p>```   </p>
-
-<p>现在我们新建了五个页面，每个页面通过绝对定位占满屏幕，我们通过[z-index]控制页面的显示  </p>
-
-<ul>
-<li><p>定义DOM事件，实现是上下滑动的翻页效果 </p>
-
-<h5 id="">事件流</h5>
-
-<ul>
-<li>我们当手指点在屏幕上的页面时，会触发touchstart事件，</li>
-
-<li>当我们手指在页面上拖动时，会触发touchmove事件，</li>
-
-<li>当我们手指离开屏幕时，触发touchend事件</li></ul>
-
-<h5 id="-1">执行方法</h5>
-
-<ul>
-<li>touchstart时，我们新建一个方法获取当前的起始坐标点的Y坐标，yStart；</li>
-
-<li>touchmover时，我们阻止默认事件（如果我们允许拖拽的话，则定义对应事件，这里不允许）；</li>
-
-<li>touchend时，我们新建方法获取当前坐标点的Y坐标，yEnd，通过比较yEnd与yStart的大小来判断用户的滑动方向；</li>
-
-<li>翻页方法，通过用户的翻页方向来确定执行上一页操作还是下一页操作</li></ul>
-
-<pre><code class="javascript language-javascript">      //touch开始事件
-      function tStart(e) {
-        if (options.mode === 'default') {
-          yStart = e.pageY; 
-        }
-      }
-      //touch结束事件
-      function tEnd(e) {
-        if (options.mode === 'default') {
-          yEnd = e.pageY;
-          if (Math.abs(yEnd - yStart) &gt; 50) {
-            if (yEnd &lt; yStart) nextPage();
-            if (yEnd &gt; yStart) prevPage();
-          }
-        }
-      }
-      //下一页
-      function nextPage() {
-        var cPage = pageWrap.children(".current");
-        var index = cPage.index();
-        if (index === (pages.length - 1)) return false;  //判断当前页面是否为最后一页
-        cPage.removeClass('current').next().addClass("current");
-        animation();
-      }
-      //上一页
-      function prevPage() {
-        var cPage = pageWrap.children(".current");
-        var index = cPage.index();
-        if (index === 0) return false; //判断当前页面是否为第一页
-        cPage.removeClass('current').prev().addClass("current");
-        animation();
-      }
-    // 全局绑定事件，这是一个事件代理，参数e为DOM事件的event对象
-      $(document)
-        .on('touchstart', '.page', function(e) {
-          tStart(e.changedTouches[0]);
-        })
-        .on('touchmove', '.page', function(e) {
-          e.preventDefault(); //禁止touchmove默认事件
-        })
-        .on('touchend', '.page', function(e) {
-          tEnd(e.changedTouches[0]);
-        })</code></pre>
-
-<p></p>
-
-<ul>
-<li><p>优化，实现伪翻页效果 <br>
-以上完成我们基本上可以实现page的翻页了，但是其中没有过渡，非常生硬，这时候我们需要依靠强大的css3动画为其制造一个伪翻页  </p>
-
-<pre><code class="css language-css">.current {
-    -webkit-animation-duration: 1s; 
-    animation-duration: 1s; // 动画持续时间
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both; //动画结束时的状态
+</code></pre>
+      <p>这样一来我们又会发现问题，只有首页的动画会有效果，因为当前的H5页面实际在一个文件中，而我们循环的是 整个H5动画中的元素，所以我们需要为该动画添加一个回调函数，也就是当翻页之后再执行当前页面的动画效果
+      </p>
+      <pre><code class="language-javascript">
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">animation</span>(<span class="hljs-params"></span>)</span>{
+  <span class="hljs-comment">//上面的代码</span>
 }
 
-//为用户下翻页获得的current执行next伪翻页
-.go2next .current {
-    -webkit-animation-name: next;
-    animation-name: next;
-}
+ $<span class="hljs-built_in">document</span>.on(<span class="hljs-string">'webkitAnimationEnd webkitTransitionEnd'</span>, <span class="hljs-string">'.page'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+   animation()
+});
 
-//为用户上翻页获得的current执行prev伪翻页
-.go2prev .current {
-    -webkit-animation-name: prev;
-    animation-name: prev;
-}
-
-//next伪翻页
-@keyframes next {
-    from {
-        -webkit-transform: translateY(100%);
-        transform: translateY(100%);
-    }
-    to {
-        -webkit-transform: none;
-        transform: none;
-    }
-}
-
-@-webkit-keyframes next {
-    from {
-        -webkit-transform: translateY(100%);
-        transform: translateY(100%);
-    }
-    to {
-        -webkit-transform: none;
-        transform: none;
-    }
-}
-//prev伪翻页
-@keyframes prev {
-    from {
-        -webkit-transform: translateY(-100%);
-        transform: translateY(-100%);
-    }
-    to {
-        -webkit-transform: none;
-        transform: none;
-    }
-}
-
-@-webkit-keyframes prev {
-    from {
-        -webkit-transform: translateY(-100%);
-        transform: translateY(-100%);
-    }
-    to {
-        -webkit-transform: none;
-        transform: none;
-    }
-}</code></pre>
-
-<p></p>
-
-<p>我们知道，<em>go2next</em>以及<em>go2prev</em>的类是我们事先没有命名的，我们需要在js中为pageWrap添上这个类，来判断其翻页方向，因此我们需要在js中加上  </p></li></ul>
-
-<pre><code class="javascript language-javascript">  function nextPage(){
-    cPage.parent().removeClass().addClass("go2next");
-  }
-  function prevPage() {
-        cPage.parent().removeClass().addClass('go2prev')
-  }</code></pre>
-
-<p><br>
-这样，一个基础的H5滑动插件我们便搭建完毕了，下面，我们只需要执行</p>
-
-<pre><code class="javascript language-javascript">   $("#pages").dxSlider();</code></pre>
-
-<p>就可以查看效果了。</p></li>
+</code></pre>
+<p>OK，现在我们的H5算是有那么点灵性了，但是，由于我们采用的伪翻页，这样每次翻页时的背景就都是最后一页， 那么，怎么去解决这个问题呢，这个和大家一起思考，下次再见~
+        <a href="http://standuup.github.io/h5demo/">demo请戳</a></p>
+      <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>
   </div>
 </body>
+
 </html>
