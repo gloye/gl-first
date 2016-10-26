@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+如何递归
+<body>
+	<script>
+    var hanoi = function(num, A, B, C) {
+      if (num > 0) {
+        hanoi(num - 1, A, C, B);
+        console.log(num + A + " to " + C)
+        hanoi(num - 1, B, A, C);
+      }
+    }
+    hanoi(3, "开始", "中转", "目标")
+  </script>
+</body>
+
+</html>
