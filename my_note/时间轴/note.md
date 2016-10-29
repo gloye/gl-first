@@ -88,4 +88,151 @@
 
 由于transform百分比计算的是元素本身，我们并不需要知道元素自身的尺寸，**transform:translate(-50%,-50%)**
 通常配合定位实现未知尺寸元素的水平垂直居中。
+
+## 3.内容区域的错落排序
+我们看到，时间轴排序均是一上一下进行排序的，很久之前看过的一本书《javascript DOM 编程艺术》里面有提到过
+利用javascript控制DOM的奇偶顺序，不过现在，我们已经可以利用css3来实现这件事了。  
+**tip3 利用CSS3新属性实现奇偶排序**
+
+```css
+
+.timeline-item {
+  .body {
+    /*这里定义内容样式*/
+  }
+  &:nth-of-type(even) {
+    .body {
+       /*这里定义内容样式*/
+    }
+  }
+}
+
+``` 
+
+关于*nth-of-type*的定义,:nth-of-type属于CSS伪类，匹配一个在文档树中位置为an+b-1 且和伪元素前名字一样的元素，
+详细文档可以参考[MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-of-type)
  
+## 4.来为内容区做点小修饰
+
+1. 为内容区添加修饰的小三角形箭头
+2. 为内容区添加一个hover效果
+
+关于三角形箭头的生成，我们有两种方案可以选择，一种是利用css3中transform属性中的rotate将一个矩形旋转生成，另一种
+方式就是依赖border生成，这里我们选择常用的border生成三角形。
+
+**tip4 纯css绘制三角**
+
+```css
+div{
+    width:0;
+    height:0;
+    border-style:solid;
+    border-width:30px 30px 30px 30px;
+    border-color: green yellow red blue;
+}
+```
+上面的CSS代码描述了其中原理，如图所示
+
+![](p1.jpg)
+
+内容区的hover效果可以随意，这里笔者添加了阴影和位移效果
+
+```css
+.timeline-item{
+   transition: transform .2s;
+}
+ .timeline-item:hover {
+      box-shadow: 2px 2px 6px #d0d0d0;
+      transform: translateY(4px);
+    }
+
+```
+
+## 5.实现标题的不同颜色
+
+以往我们实现标题的不同颜色，可能会对每一个元素单独加一个类名，或者利用juqery循环dom元素实现，这里我们可以使用
+**:nth-child(n)**来表现，**:nth-child**的用法与**:nth-of-type**类似，可以参阅[MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-child
+),但是我们看到这里年份足足有八个（很平衡？误。。。），如果像下面这样，就很累，很难受。
+
+```css
+nth-child(1){
+  border-color: color
+}
+nth-child(2){
+  border-color: color
+}
+nth-child(3){
+  border-color: color
+}
+.................
+.............
+..........
+nth-child(n){
+  border-color: color
+}
+```
+
+为了提高开发效率，弥补原生css中的遗憾，我们可以使用sass预编译器，让我们以编程语言的方式来写CSS
+
+**tip5 scss  函数运用**
+
+```scss
+
+$colorList: #e21e1f #f55fab #db34c7 #a957df #7479d3 #3589ca #36bdc9 #40c092;
+@each $color in $colorList {
+  $i: index($colorList, $color);
+  .timeline-item:nth-child(#{$i}) {
+    > .heading {
+      border-color: $color;
+      color: $color;
+    }
+  }
+}
+
+```
+
+上面代码中，我们定义scss变量$colorList,这里我们可以认为它是一个数组，然后我们使用@each循环$colorList
+在循环里面，我们通过定义$i获取循环中的索引，这里用到了index(array,item)函数，它返回的是item在array中的
+位置，但是与编程语言不同的是，这个$i是从1开始的,这一点是和nth-child一致的，编译出来：
+
+```css
+
+.timeline-item:nth-child(1) > .heading {
+  border-color: #e21e1f;
+  color: #e21e1f; }
+
+.timeline-item:nth-child(2) > .heading {
+  border-color: #f55fab;
+  color: #f55fab; }
+
+.timeline-item:nth-child(3) > .heading {
+  border-color: #db34c7;
+  color: #db34c7; }
+
+.timeline-item:nth-child(4) > .heading {
+  border-color: #a957df;
+  color: #a957df; }
+
+.timeline-item:nth-child(5) > .heading {
+  border-color: #7479d3;
+  color: #7479d3; }
+
+.timeline-item:nth-child(6) > .heading {
+  border-color: #3589ca;
+  color: #3589ca; }
+
+.timeline-item:nth-child(7) > .heading {
+  border-color: #36bdc9;
+  color: #36bdc9; }
+
+  .timeline-item:nth-child(8) > .heading {
+  border-color: #40c092;
+  color: #40c092; }
+
+```
+
+至此，我们时间轴的制作也就差不多了，中间的线我们用渐变来表示，其他小样式调整就不描述了，
+大家可以戳[Demo](https://jsfiddle.net/kwha27ga/)
+
+
+
