@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue Chapter 1</title>
+  <script src="https://cdn.staticfile.org/vue/2.0.5/vue.js"></script>
+</head>
+
+<body>
+  <div id="app" >
+    <todolist :list="tdList">
+
+    </todolist>
+
+     <todolist :list="testList">
+
+    </todolist>
+  </div>
+
+
+  <template id="item">
+    <ul>
+      <li @click="toggleItem(eacbItem)"  v-for="eachItem in list">
+        {{eachItem.body}}
+      </li>
+    </ul>
+  </template>
+
+
+  <script>
+        Vue.component('todolist',{
+        template: "#item",
+        props:['list'],
+        methods:{
+          toggleItem : function(item){
+            item.completed = !item.completed;
+          }
+        }
+      })
+
+      var app = new Vue({
+        el:"#app",
+        data:{
+          tdList:[
+            {body:"tdList 1",completed:false},
+            {body:"tdList2",completed:true},
+            {body:"tdList3",completed:false}
+          ],
+          testList:[
+            {body:"testList1",completed:false},
+            {body:"testList2",completed:true},
+            {body:"testList3",completed:false}
+          ]
+        }
+      })
+
+
+   </script>
+</body>
+
+</html>
