@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>归并排序</title>
+</head>
+
+<body>
+
+  <script>
+
+  var mergeSortRec = function(array){
+  var length = array.length;
+  if(length==1){
+    return array;
+  }
+  var mid = Math.floor(length/2),
+      left = array.slice(0,mid),
+      right = array.slice(mid,length);
+ return merge(mergeSortRec(left),mergeSortRec(right));     
+}
+
+var merge = function(left,right){
+  var result = [],
+   il=0,
+   ir=0;
+   while(il<left.length && ir < right.length){
+      if(left[il]<right[ir]){
+        result.push(left[il++]);
+        // console.log(result.join())
+      } else{
+        result.push(right[ir++]);
+         console.log(result.join())
+      }
+   }
+  while(il<left.length){
+      result.push(left[il++]);
+   }
+   while(ir<right.length){
+     result.push(right[ir++]);
+   }
+      return result;
+}
+var testArr = [];
+for(var i=8;i>0;i--){
+  testArr.push(i)
+}
+mergeSortRec(testArr);
+</script>
+</body>
+
+</html>
