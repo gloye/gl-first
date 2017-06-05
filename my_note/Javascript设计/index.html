@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>红绿灯程序设计</title>
+  <style>
+    .traffic{
+      width: 300px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    #traffic > li{
+    display: block;
+  }
+
+  #traffic span{
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-color: gray;
+    margin: 5px;
+    border-radius: 50%;
+  }
+
+  #traffic.stop li:nth-child(1) span{
+    background-color: #a00;
+  }
+
+  #traffic.wait li:nth-child(2) span{
+    background-color: #aa0;
+  }
+
+  #traffic.pass li:nth-child(3) span{
+    background-color: #0a0;
+  }
+</style>
+</head>
+
+<body>
+  <ul id="traffic" class="wait">
+    <li><span></span></li>
+    <li><span></span></li>
+    <li><span></span></li>
+  </ul>
+  <script src="traffic.js"></script>
+</body>
+
+</html>

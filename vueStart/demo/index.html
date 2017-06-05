@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/foundation/6.3.0-rc3/css/foundation.css">
+  <style>
+    body{
+      height: 9999px;
+    }
+    .dialog-wrap{
+      position: fixed;
+      background-color: rgba(0,0,0,.4);
+      left:0;
+      top:0;
+      right:0;
+      bottom:0;
+      /*opacity: 0;*/
+      /*visibility: hidden;*/
+      transition:all .3s;
+    }
+
+    .dialog-wrap.in{
+      opacity: 1;
+      visibility: visible
+    }
+
+    .dialog-content{
+      position: absolute;
+      width: 600px;
+      left:50%;
+      top:50%;
+      padding: 15px;
+      background-color: #fff;
+      transform:translate(-50%,-50%);
+    }
+   
+   .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-active {
+      opacity: 0
+    }
+  </style>
+</head>
+
+<body>
+  <div class="columns" id="demo">
+    <h1>Todo List</h1>
+    <button class="button" id="j_layer" @click="show=!show">添加任务</button>
+    <!--应该是一个弹出组件-->
+    <transition name="fade">
+      <div class="dialog-wrap" v-if="show">
+        <div class="dialog-content">
+          <form action="" class="task-form">
+            <!--任务描述-->
+            <div class="form-group">
+              <label for="">任务</label>
+              <input type="text">
+            </div>
+            <!--处理时间，这里应该有一个时间组件-->
+            <div class="form-group">
+              <label for="">时间：</label>
+              <input type="datetime-local">
+            </div>
+            <!--说明，富文本编辑器的组件-->
+            <div class="form-group">
+              <label for="">描述：</label>
+              <textarea name="" id="" cols="30" rows="10"></textarea>
+            </div>
+            <!--项目选择-->
+            <div class="form-group">
+              <label for="">项目名称</label>
+              <select name="" id="">
+          <option value="">项目一</option>
+          <option value="">项目二</option>
+          <option value="">项目三</option>
+        </select>
+            </div>
+            <hr>
+            <!--确认-->
+            <div class="button-group text-right">
+              <button class="primary button">确认</button>
+              <a href="javascript:;" class="secondary button" id="j_cancel" v-on:click="show=!show">取消</a>
+            </div>
+          </form>
+        </div>
+        <!--content end-->
+      </div>
+    </transition>
+    <!--wrap end-->
+  </div>
+
+  <!--引用vue.js-->
+  <script src="https://cdn.staticfile.org/vue/2.0.5/vue.js"></script>
+
+  <script>
+   // 常规实现方式
+   /* (function () {
+      "user strict";
+      let btn = document.querySelector("#j_layer");
+      let cancel = document.querySelector("#j_cancel");
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        document.querySelector(".dialog-wrap").classList.add("in");
+      })
+      cancel.addEventListener("click", function (e) {
+        e.preventDefault();
+        document.querySelector(".dialog-wrap").classList.remove("in");
+      })
+    })();*/
+  </script>
+<script>
+
+  // vue实现
+  new Vue({
+    el: '#demo',
+    data: {
+      show: false
+    },
+    methods:{
+      test:function(e){
+        console.log("Event")
+      }
+    }
+  })
+</script>
+</body>
+
+</html>
