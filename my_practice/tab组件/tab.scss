@@ -1,0 +1,27 @@
+$prefix:"tabs";
+.#{$prefix} {
+    &-bar {
+        margin-bottom: 16px;
+    }
+    &-nav {
+        display: flex;
+        font-size: 14px;
+    }
+    &-nav>&-tab {
+        list-style: none;
+        padding: 8px 20px;
+        color: #666;
+        cursor: pointer;
+    }
+    &-nav>&-active {
+        border-bottom: 2px solid #00c49f;
+        color: #00c49f;
+        cursor: default;
+    }
+    &-content>&-panel {
+        display: none;
+    }
+    &-content>&-active {
+        display: block;
+    }
+}
