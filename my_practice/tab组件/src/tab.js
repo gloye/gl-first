@@ -1,4 +1,4 @@
-import $ from 'jQuery';
+import $ from 'jquery';
 import EventEmitter from 'events';
 
 const Selector = (classPrefix) => ({
@@ -11,11 +11,9 @@ const Selector = (classPrefix) => ({
     DISABLE: `${classPrefix}-disable`
 })
 
+
+
 class Tabs {
-    static defaultOptions = {
-        classPrefix: 'tabs',
-        activeIndex: 0
-    }
 
     constructor(options) {
         this.options = $.extend({}, Tabs.defaultOptions, options);
@@ -124,10 +122,16 @@ class Tabs {
 
 }
 
+Tabs.defaultOptions = {
+    classPrefix: 'tabs',
+    activeIndex: 0
+}
+
+
 export default Tabs
 
 const tab = new Tabs({
-    element:'.tab-demo',
-    tabs:'.tabs-tab',
-    panels:'tabs-panel'
+    element: '.tab-demo',
+    tabs: '.tabs-tab',
+    panels: 'tabs-panel'
 })

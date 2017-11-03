@@ -1,5 +1,20 @@
 {
   "dependencies": {
-    "jQuery": "^1.7.4"
+    "babel-cli": "^6.26.0",
+    "events": "^1.1.1",
+    "jquery": "^3.2.1",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-resolve": "^3.0.0"
+  },
+  "scripts": {
+    "build": "babel src -d lib"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.0.0-beta.4",
+    "@babel/preset-es2017": "^7.0.0-beta.4",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "rollup-plugin-babel": "^3.0.2"
   }
 }
