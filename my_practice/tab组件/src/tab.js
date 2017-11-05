@@ -3,15 +3,16 @@ import EventEmitter from 'events';
 
 const Selector = (classPrefix) => ({
     PREFIX: classPrefix,
+    // wrap
     NAV: `${classPrefix}-nav`,
     CONTENT: `${classPrefix}-content`,
+    // el
     TAB: `${classPrefix}-tab`,
     PANEL: `${classPrefix}-panel`,
+    // modifier
     ACTIVE: `${classPrefix}-active`,
     DISABLE: `${classPrefix}-disable`
 })
-
-
 
 class Tabs {
 
@@ -107,6 +108,7 @@ class Tabs {
 
     _getPanelInfo(toIndex) {
         const panels = this.panels;
+        console.log(panels);
         const fromIndex = this.fromIndex;
         let fromPanels, toPanels;
         if (fromIndex > -1) {
@@ -134,5 +136,5 @@ export default Tabs
 const tab = new Tabs({
     element: '.tab-demo',
     tabs: '.tabs-tab',
-    panels: 'tabs-panel'
+    panels: '.tabs-panel'
 })
