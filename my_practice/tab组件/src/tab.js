@@ -15,12 +15,17 @@ const Selector = (classPrefix) => ({
 
 class Tabs {
 
+    static defaultOptions = {
+        classPrefix: 'tabs',
+        activeIndex: 0
+    }
+
     constructor(options) {
         this.options = $.extend({}, Tabs.defaultOptions, options);
         this.element = $(this.options.element);
         this.fromIndex = this.options.activeIndex;
 
-        this.event = new EventEmitter();
+        this.events = new EventEmitter();
         this.selector = Selector(this.options.classPrefix);
 
         this._initElement();
@@ -33,7 +38,7 @@ class Tabs {
     }
 
     _initElement() {
-        this.element.addClass(this.selelctor.PREFIX);
+        this.element.addClass(this.selector.PREFIX);
         this.tabs = $(this.options.tabs);
         this.panels = $(this.options.panels);
         this.nav = $(this.options.nav);
@@ -71,7 +76,7 @@ class Tabs {
         this._switchTo(toIndex);
     }
 
-    _swithchTo(toIndex) {
+    _switchTo(toIndex) {
         const fromIndex = this.fromInex;
         const panelInfo = this._getPanelInfo(toIndex);
 
@@ -86,7 +91,7 @@ class Tabs {
         this.fromIndex = toIndex;
     }
 
-    _swithchTabs(toIndex) {
+    _switchTabs(toIndex) {
         const tabs = this.tabs;
         const fromIndex = this.fromIndex;
         if (tabs.length < 1) return;
@@ -122,10 +127,6 @@ class Tabs {
 
 }
 
-Tabs.defaultOptions = {
-    classPrefix: 'tabs',
-    activeIndex: 0
-}
 
 
 export default Tabs
