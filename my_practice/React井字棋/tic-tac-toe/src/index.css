@@ -49,3 +49,25 @@ ul {
 .game-info {
   margin-left: 20px;
 }
+
+.button {
+  margin-bottom: 15px;
+}
+
+.bold,
+.bold button {
+  font-weight: bold;
+  color: blue;
+}
+
+button {
+  cursor: pointer;
+  box-shadow: none;
+  background: none;
+  border: 1px solid #eee;
+  width: 120px;
+}
+
+.highlight {
+  color: red;
+}
