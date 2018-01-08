@@ -9,72 +9,16 @@
     <style>
         .canvas {
             width: 500px;
-            margin: 0 auto;
             border: 1px solid #ddd;
         }
     </style>
 </head>
 
 <body>
-    <Canvas id="demo" class="canvas" width="1000" height="500"></Canvas>
-    <script>
-        var img = new Image()
-        const Canvas = document.getElementById('demo')
-        const ctx = Canvas.getContext('2d');
-
-        img.onload = function () {
-            ctx.drawImage(img, 0, 400);
-        }
-
-        img.src = "images/1.png"
-
-        let distance = 0
-        let left
-        let right
-
-
-        let aimMove = setInterval(function () {
-            if (left) {
-                distance -= 15
-            } else if (right) {
-                distance += 15
-            }
-
-            if(distance > 800 || distance < 0){
-                clearInterval(aimMove)
-            }
-
-            move(distance)
-        }, 1000 / 30)
-
-        
-        function move(distance) {
-            ctx.clearRect(0, 0, Canvas.width, Canvas.height);
-            ctx.drawImage(img, distance, 400)
-        }
-
-        window.addEventListener('keydown', function (e) {
-            if (e.key === "d") {
-                left = false
-                right = true
-                if (distance > 800) {
-                    right = false
-                }
-            }
-        })
-
-        window.addEventListener('keydown', function (e) {
-            if (e.key === "a") {
-                right = false
-                left = true
-                if (distance < 30) {
-                    left = false
-                }
-            }
-        })
-
-
-    </script>
+    <div class="wrap">
+        <Canvas id="demo" class="canvas" width="1000" height="500"></Canvas>
+    </div>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
