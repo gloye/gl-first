@@ -1,38 +1,71 @@
 '''
 # demo
 '''
-import os
+import json
+import re
 import requests
 import bs4
+import openpyxl
 
 
 URL = "https://www.billboard.com/charts/hot-100"
 
+
 print('Downloading page %s...' % URL)
-
-os.makedirs('dragonball', exist_ok=True)
-
 RES = requests.get(URL)
 RES.raise_for_status()
 
 SOUP = bs4.BeautifulSoup(RES.text, 'html5lib')
 
+LIST = SOUP.select('.chart-row')
+LIST_LEN = len(LIST)
 
-IMG_EL = SOUP.select('#center_box')
-print(IMG_EL)
-exit()
-comicUrl = False
-if IMG_EL == []:
-    print('Could not find comic image.')
-else:
-    comicUrl = IMG_EL[0].get('src')
-    print('Downloading image %s...' % (comicUrl))
-    res = requests.get(comicUrl)
-    res.raise_for_status()
+WB = openpyxl.Workbook()
+SHEET = WB.active
+SHEET.title = '榜单'
+SHEET['A1'] = '排名'
+SHEET['B1'] = '歌名'
+SHEET['C1'] = '歌手'
+SHEET['D1'] = '链接'
 
-if comicUrl:
-    imageFile = open(os.path.join(
-        'dragonball', os.path.basename(comicUrl)), 'wb')
-    for chunk in res.iter_content(100000):
-        imageFile.write(chunk)
-        imageFile.close()
+
+def parse_jsonp(jsonp_str):
+    '''
+    #  解析JSONP
+    '''
+    try:
+        return re.search('^[^(]*?\((.*)\)[^)]*$', jsonp_str).group(1)
+    except:
+        raise ValueError('Invalid JSONP')
+
+
+def getLink(keyword):
+    '''
+    # 获取连接
+    '''
+    search_url = 'http://soapi.yinyuetai.com/search/video-search?callback=jQuery110207370039710434122_1516538494517&keyword=%s&pageIndex=1&pageSize=24&offset=0&orderType=&area=&property=&durationStart=0&durationEnd=&regdateStart=&regdateEnd=1516538495&clarityGrade=&source=&thirdSource=&_=1516538494534' % keyword
+    search_raw = requests.get(search_url)
+    search_raw.raise_for_status()
+    data = json.loads(parse_jsonp(search_raw.text))
+    if len(data['videos']['data']) > 0:
+        video_id = data['videos']['data'][0]['id']
+    else:
+        return '搜索不到'
+    video_url = 'http://v.yinyuetai.com/video/%s' % video_id
+    return video_url
+
+
+for i in range(LIST_LEN):
+    row = i + 2
+    rank = LIST[i].select('.chart-row__current-week')[0].getText()
+    song = LIST[i].select('.chart-row__song')[0].getText()
+    artist = LIST[i].select('.chart-row__artist')[0].getText()
+    keyword = song + ' ' + artist
+    link = getLink(keyword)
+    SHEET.cell(row=row, column=1).value = rank
+    SHEET.cell(row=row, column=2).value = song
+    SHEET.cell(row=row, column=3).value = artist
+    SHEET.cell(row=row, column=4).value = link
+    print('%s 已完成' % i)
+
+WB.save('list.xlsx')
