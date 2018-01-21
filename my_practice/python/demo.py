@@ -47,7 +47,7 @@ def getLink(keyword):
     search_raw = requests.get(search_url)
     search_raw.raise_for_status()
     data = json.loads(parse_jsonp(search_raw.text))
-    if len(data['videos']['data']) > 0:
+    if data['videos']['data']:
         video_id = data['videos']['data'][0]['id']
     else:
         return '搜索不到'
