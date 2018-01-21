@@ -6,7 +6,7 @@ import requests
 import bs4
 
 
-URL = "http://manhua.dmzj.com/longzhuchao/72151.shtml#@page=1"
+URL = "https://www.billboard.com/charts/hot-100"
 
 print('Downloading page %s...' % URL)
 
