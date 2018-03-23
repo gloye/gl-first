@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body{
+            text-align:center;
+        }
+        button{
+            font-size:34px;
+        }
+
+        #res{
+            margin:20px 0;
+            font-size:42px;
+        }
+
+    </style>
+</head>
+<body>
+    <button id="btnA">初二1班</button>
+    <button id="btnB">初二5班</button>
+    <div id="res"></div>
+    <script>
+        const classA = '邹婵琼，彭欢，潘诗华，卢泽恩，陈烨，程裕如，杨彦青，黄超锐，刘朝东，陈慧贤，林晶晶，黄伟桐，蔡泽琳，林亚婷，谢欢，王念，陈志鹏，钟飘兰，王君鹏，李泽民'.split('，')
+        const classB = '梁炜怡，刘楚涵，林源杰，王甜甜，曾宏，黎嘉雯，林鑫好，方证铠，蔡家怡，欧丹纯，李创城，张晓玲，彭艳琪，蔡嘉丽，黎晓桦'.split('，')
+        let raw = []
+        function getRandom(min,max){
+          return Math.floor(Math.random()*(max-min)+min)
+        }
+        
+        function getVal(source){
+            const len = source.length
+            const index = getRandom(0,len)
+            const val = source.splice(index,1)
+            return val
+        }
+
+        function showVal(val){
+            const el = document.getElementById("res")
+            if(val.length>0){
+                el.innerHTML = val
+                return true
+            }else{
+                el.innerHTML = '所有人都被点过了'
+                return false
+            }
+        }
+
+        function handleClick(el){
+            el.addEventListener('click',function(e){
+                e.preventDefault()
+                switch(e.target.id){
+                    case 'btnA':
+                    const boolA = showVal(getVal(classA))
+                    if(!boolA) el.setAttribute('disabled',true)
+                    break
+                    case 'btnB':
+                    const boolB = showVal(getVal(classB))
+                    if(!boolB) el.setAttribute('disabled',true)
+                    break
+                }
+                    
+            })
+        }
+
+        const btnA = document.getElementById("btnA")
+        const btnB = document.getElementById("btnB")
+        
+        handleClick(btnA)
+        handleClick(btnB)
+        
+    </script>
+</body>
+</html>
