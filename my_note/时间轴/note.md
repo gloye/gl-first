@@ -102,7 +102,7 @@
 ```
 
 关于*nth-of-type*的定义,:nth-of-type属于CSS伪类，匹配一个在文档树中位置为an+b-1 且和伪元素前名字一样的元素，详细文档可以参考[MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-of-type)
- 
+
 ## 4.来为内容区做点小修饰
 
 1. 为内容区添加修饰的小三角形箭头
@@ -125,7 +125,7 @@ div{
 
 上面的CSS代码描述了其中原理，如图所示
 
-![](p1.jpg)
+![example](p1.jpg)
 
 内容区的hover效果可以随意，这里笔者添加了阴影和位移效果
 

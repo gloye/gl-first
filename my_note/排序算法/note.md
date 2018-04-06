@@ -1,13 +1,17 @@
-#常见排序算法javascript实现
-##归并排序
-归并排序是一种分治算法，其思想是将原始数组切分成较小的数组，直到每个小数组只有一个位置，接着将小数组归并成较大的数组。
-由于是分治法，归并排序也是递归的：
+# 常见排序算法javascript实现
+
+## 归并排序
+
+归并排序是一种分治算法，其思想是将原始数组切分成较小的数组，直到每个小数组只有一个位置，接着将小数组归并成较大的数组。由于是分治法，归并排序也是递归的：
+
 ```javascript
  this.mergeSort = function(){
    array = mergeSortRec(array)
  }
 ```
+
 我们事先声明mergeSort方法供随后调用，而mergeSort方法将会调用mergeSortRec，该函数是一个递归函数。
+
 ```javascript
 var mergeSortRec = function(array){
   var length = array.length;
@@ -17,7 +21,7 @@ var mergeSortRec = function(array){
   var mid = Math.floor(length/2),
       left = array.slice(0,mid),
       right = array.slice(mid,length);
- return merge(mergeSortRec(left),mergeSortRec(right));     
+ return merge(mergeSortRec(left),mergeSortRec(right));
 }
 
 var merge = function(left,right){
@@ -40,16 +44,15 @@ var merge = function(left,right){
    return result;
 }
 ```
-##快速排序
-快速排序步骤  
+
+## 快速排序
+
+快速排序步骤
 
 1. 首先，从数组中选择中间一项作为主元
-2. 创建两个指针，左边一个指向数组第一个项，右边一个指向数组最后一项。
-移动左指针直到我们找到一个比主元打得元素，接着移动右指针直到找到一个比主元小的元素
-然后交换它们，重复这个过程，直到左指针超过了右指针。这个过程将比主元小的值都排在主元
-之前，而比主元大的值都排在主元之后。这一步叫做划分操作  
-3. 接着，算法对划分后的小数组（较主元小的值组成的子数组，以及较主元大的值组成的子数组）
-重复之前的两个步骤，直至数组已经完全排序
+2. 创建两个指针，左边一个指向数组第一个项，右边一个指向数组最后一项。移动左指针直到我们找到一个比主元打得元素，接着移动右指针直到找到一个比主元小的元素然后交换它们，重复这个过程，直到左指针超过了右指针。这个过程将比主元小的值都排在主元之前，而比主元大的值都排在主元之后。这一步叫做划分操作
+3. 接着，算法对划分后的小数组（较主元小的值组成的子数组，以及较主元大的值组成的子数组）重复之前的两个步骤，直至数组已经完全排序
+
 ```javascript
 this.quickSort = function(){
   quick(array,0,array.length-1);
@@ -83,8 +86,8 @@ var partition = function(array,left,right){
       i++;
       j--;
     }
-  } 
-  return i;   
+  }
+  return i;
 }
 //swap函数
 var swapQuickStort = function(array,index1,index2){
