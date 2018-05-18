@@ -5,18 +5,57 @@
 ```javascript
 // 生成样本数组
 const range = []
-for (let i = 0; i < 1000; i++) {
+for (let i = 0; i < 100; i++) {
   range.push(i)
 }
-// 洗牌抽取100个作为我们这次的数据
+// 洗牌抽取20个作为我们这次的数据
 const shuffle = len => {
   for (let i = 0; i < len; i++) {
-    const ri = Math.floor(Math.random() * 1000)
+    const ri = Math.floor(Math.random() * 100)
     ;[range[i], range[ri]] = [range[ri], range[i]]
   }
   return range.slice(0, len)
 }
-shuffle(100)
+let data = shuffle(20)
+```
+
+## 冒泡排序
+
+冒泡排序的原理是比较相邻两个元素，如果符合条件，则调换两个元素的位置；遍历完所有元素一轮，则会找到数据中的最大（或最小，取决于定义的条件）；然后进行第二轮比较，以此类推，直至完全排序完成，具体实现为：
+
+```javascript
+let len = 20 // 数组长度
+// 第一轮比较找到最大值
+for (let i = 0; i < len - 2; i++) {
+  if (data[i] > data[i + 1]) {
+    ;[data[i], data[i + 1]] = [data[i + 1], data[i]]
+  }
+}
+// 因为每一轮我们找出一个值，所以每一轮的遍历元素数目减一(n:每次遍历的元素数目，i:索引)
+for (let n = len; n > 1; n--) {
+  for (let i = 0; i < n - 2; i++) {
+    if (data[i] > data[i + 1]) {
+      ;[data[i], data[i + 1]] = [data[i + 1], data[i]]
+    }
+  }
+}
+```
+
+## 选择排序
+
+选择排序和冒泡排序类似，先遍历数据，从数组中找到最小（或最大）的值；插入到数组头部；然后遍历剩下的数据
+
+```js
+let len = 20
+let minIndex = 0
+for (let n = 0; n < len; n++) {
+  for (let i = len - 1; i >= n; i--) {
+    if (data[minIndex] > data[i]) {
+      minIndex = i
+    }
+  }
+  ;[data[minIndex], data[n]] = [data[n], data[minIndex]]
+}
 ```
 
 ## 归并排序
