@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        // 生成样本数组
+        const range = []
+        for (let i = 0; i < 100; i++) {
+            range.push(i)
+        }
+        // 洗牌抽取20个作为我们这次的数据
+        const shuffle = len => {
+            for (let i = 0; i < len; i++) {
+                const ri = Math.floor(Math.random() * 100)
+                    ;[range[i], range[ri]] = [range[ri], range[i]]
+            }
+            return range.slice(0, len)
+        }
+        let data = shuffle(20)
+        // 分治 
+        let sort = arr => {
+            const len = arr.length
+            if (len <= 1) {
+                return arr
+            } else {
+                const m = arr[Math.floor(len / 2)]
+                const leftDist = arr.filter(item => item < m)
+                const rightDist = arr.filter(item => item > m)
+                const equalDist = arr.filter(item => item === m)
+                return [].concat(sort(leftDist), equalDist, sort(rightDist))
+            }
+        }
+    </script>
+</body>
+
+</html>
